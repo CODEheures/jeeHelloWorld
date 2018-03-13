@@ -27,8 +27,6 @@ public class login extends HttpServlet {
     @Override
     public void init() throws ServletException {
     	super.init();
-    	String databaseUrl = this.getServletContext().getInitParameter("DATABASE_URL");
-    	System.out.println("Simulation connection to " + databaseUrl);
     }
 
 	/**
