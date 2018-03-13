@@ -23,6 +23,13 @@ public class login extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    @Override
+    public void init() throws ServletException {
+    	super.init();
+    	String databaseUrl = this.getServletContext().getInitParameter("DATABASE_URL");
+    	System.out.println("Simulation connection to " + databaseUrl);
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
