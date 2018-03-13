@@ -1,14 +1,13 @@
 package fr.codeheures.test;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class login
@@ -29,47 +28,39 @@ public class login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String login = request.getParameter("txtLogin");
 		
+		//Get old parameters
+		String login = request.getParameter("txtLogin");
 		if (login == null) login = "";
 		
-		response.setContentType("text/html");
-		try (PrintWriter out = response.getWriter()) {
-			out.println("<html>");
-			out.println("<head>");
-			out.println("	<title>Veuillez vous identifier</title>");
-			out.println("	<link rel='stylesheet' type='text/css' href='styles.css'>");
-			out.println("</head>");
-			out.println("<body>");
-			out.println("	<h1>Veuillez vous identifier</h1>");
-			out.println("	<h2>" + new Date() + "</h2>");
-			out.println("	<form method='post' />");
-			out.println("		<label for='txtLogin'>Login</label>");
-			out.println("		<input type='text' name='txtLogin' id='txtLogin' value='"+ login +"'/><br />");
-			out.println("		<label for='txtPassword'>Password</label>");
-			out.println("		<input type='password' name='txtPassword'id='txtPassword'/><br /><br />");
-			out.println("		<input type='submit' value='Soumettre' />");
-			out.println("	</form>");
-			out.println("</body>");
-			out.println("</html>");
-			
-		}
+		//set session attributes
+		HttpSession session = request.getSession();
+		session.setAttribute("login", login);
+		
+		//Redirect to jsp view
+		request.getRequestDispatcher("Login.jsp").forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		//Get parameters
 		String login = request.getParameter("txtLogin");
 		String password = request.getParameter("txtPassword");
 		
+		//Get session
+		HttpSession session = request.getSession();
+		
+		//Test login
 		if (login.trim().equals("bond") && password.trim().equals("007")) {
-			response.setContentType("text/html");
-			try (PrintWriter out = response.getWriter()) {
-				out.println("Bienvenue M." + login);
-			}
+			session.setAttribute("login", login);
+			session.setAttribute("isConnected", true);
+			request.getRequestDispatcher("Connected.jsp").forward(request, response);
 		} else {
+			session.setAttribute("isConnected", false);
 			doGet(request, response);
 		}
 	}

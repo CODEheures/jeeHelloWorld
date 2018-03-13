@@ -4,15 +4,17 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Veuillez vous identifier</title>
 	<link rel='stylesheet' type='text/css' href='styles.css'>
 </head>
 <body>
 	<h1>Veuillez vous identifier</h1>
-	<h2><%= new Date() %></h2>
-	<% for(int i=1; i<=6 ; i++) { %>
-	<h<%= i %>>Titre de niveau <%= i %></h<%= i %>>
-	<% } %>
-	<p>Ok 8</p>
+	<form method='post' action='login'>
+		<label for='txtLogin'>Login</label>
+		<input type='text' name='txtLogin' id='txtLogin' value='${ login }'/><br />
+		<label for='txtPassword'>Password</label>
+		<input type='password' name='txtPassword' id='txtPassword'/><br /><br />
+		<input type='submit' value='Soumettre' />
+	</form>
 </body>
 </html>
